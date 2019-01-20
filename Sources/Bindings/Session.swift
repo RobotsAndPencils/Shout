@@ -5,6 +5,7 @@
 //  Created by Jake Heiser on 3/4/18.
 //
 
+import Foundation
 import CSSH
 import Socket
 
@@ -61,6 +62,10 @@ public class Session {
     
     public func openChannel() throws -> Channel {
         return try Channel(cSession: cSession)
+    }
+
+    public func openSCPChannel(localURL: URL, remotePath: String, mode: Int) throws -> SCPChannel {
+        return try SCPChannel(cSession: cSession, localURL: localURL, remotePath: remotePath, mode: mode)
     }
     
     public func agent() throws -> Agent {

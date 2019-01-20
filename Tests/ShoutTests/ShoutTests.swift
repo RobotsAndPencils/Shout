@@ -24,9 +24,19 @@ class ShoutTests: XCTestCase {
         }
     }
 
+    func testSendFile() throws {
+        try SSH.connect(host: "jakeheis.com", username: "", authMethod: SSHAgent()) { (ssh) in
+            try ssh.sendFile(localURL: URL(fileURLWithPath: String(#file)), remotePath: "/tmp/upload_test.swift", mode: 0o644)
+            print(try ssh.capture("cat /tmp/upload_test.swift"))
+            print(try ssh.capture("ls -l /tmp/upload_test.swift"))
+            print(try ssh.capture("rm /tmp/upload_test.swift"))
+        }
+    }
+
     static var allTests = [
         ("testCapture", testCapture),
         ("testConnect", testConnect),
+        ("testSendFile", testSendFile),
     ]
 
 }

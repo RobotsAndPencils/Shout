@@ -110,6 +110,11 @@ public class SSH {
         }
     }
     
+    public func sendFile(localURL: URL, remotePath: String, mode: Int) throws -> Int32 {
+        let channel = try session.openSCPChannel(localURL: localURL, remotePath: remotePath, mode: mode)
+        try channel.sendFile()
+        return channel.exitStatus()
+    }
 }
 
 // MARK: - Deprecations
