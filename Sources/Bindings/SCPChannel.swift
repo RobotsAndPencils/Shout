@@ -17,8 +17,7 @@ public class SCPChannel {
 
     public init(cSession: OpaquePointer, localURL: URL, remotePath: String, mode: Int) throws {
         guard
-            let resources = try? localURL.resourceValues(forKeys: [.fileSizeKey]),
-            let fileSize = resources.fileSize,
+            let fileSize = try FileManager.default.attributesOfItem(atPath: localURL.path)[.size] as? Int,
             let cChannel = libssh2_scp_send64(cSession, remotePath, Int32(mode), Int64(fileSize), 0, 0)
         else { throw LibSSH2Error(code: -1, session: cSession) }
 
